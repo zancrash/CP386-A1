@@ -34,6 +34,7 @@ int main() {
   } else {
     printf("No zombie process found.");
   }
+  fclose(fp);
 
   return 0;
 }
