@@ -5,10 +5,10 @@
 #include <unistd.h>
 
 int main() {
-  int pid = fork();
+  pid_t pid = fork();
 
   if (pid < 0) {
-    fprintf(stderr, "An error occurred during the creation of the child process.");
+    fprintf(stderr, "An error occurred while forking.");
     exit(1);
   } else if (pid == 0) {
     // child
@@ -16,7 +16,7 @@ int main() {
   } else {
     // parent
     sleep(60);  // this results in a zombie process
-    printf("completed.");
+    printf("Completed.");
   }
 
   return 0;
