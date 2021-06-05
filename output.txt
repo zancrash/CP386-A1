@@ -1,0 +1,32 @@
+              total        used        free      shared  buff/cache   available
+Mem:            15G        7.0G        8.7G         17M        223M        8.7G
+Swap:           29G        148M         29G
+total 64
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  4 22:31 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  3 23:40 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  4 22:30 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 May 31 16:50 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   687 Jun  4 22:31 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso   204 Jun  4 22:31 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17224 Jun  4 22:31 process_management*
+-rwxrwxrwx 1 mklaso mklaso  6418 Jun  4 22:30 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   422 Jun  2 23:49 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   671 Jun  3 21:31 z_terminator.c*
+mklaso
+up 11 hours, 6 minutes
+/mnt/c/Users/mklas/Desktop/cp386/cp386-a1
+Command at index 0 is: free -h
+Command at index 1 is: ls -l -a -F
+Command at index 2 is: whoami
+Command at index 3 is: uptime -p
+Command at index 4 is: pwd
+num_flags for the command is: 2
+num_flags for the command is: 4
+num_flags for the command is: 1
+num_flags for the command is: 2
+num_flags for the command is: 1

@@ -14,7 +14,7 @@ z_terminator: z_terminator.c
 	gcc -Wall -g -std=gnu99  -o z_terminator z_terminator.c
 
 runq2: warnings_OK
-	./process_management 
+	./process_management sample_in.txt
 runq1: z_creator z_terminator
 	./z_terminator
 # sample_in.txt | cat output.txt
