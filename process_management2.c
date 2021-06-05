@@ -72,10 +72,11 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
   }
   close(fd[0]);  // close when done reading.
 
-  printf("Command is: %s\n", cmd_info.full_command);
-  printf("Output is: %s\n", buff);
+  // for testing
+  // printf("Command is: %s\n", cmd_info.full_command);
+  // printf("Output is: %s\n", buff);
 
-  //writeOutput()?
+  writeOutput(cmd_info.full_command, buff);
 }
 
 int main(int argc, char* argv[]) {
