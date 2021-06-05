@@ -20,13 +20,20 @@ void writeOutput(char* command, char* output) {
 
 #define MAX_LINE_LEN 60
 
+typedef struct command_info {
+  char full_command[MAX_LINE_LEN];  // entire command with flags
+  char flags[5][10];                //make dynamic later
+  char command[MAX_LINE_LEN];       // only the command
+  int num_flags;
+} COMMAND_INFO;
+
 int main() {
-  int SIZE = 4096;                     // size in bytes of shared memory object
-  char* name = "OS";                   // named of shared memory object
-  int shm_fd;                          // shared memory file descriptor
-  void* mem_ptr;                       // pointer to shared memory object
-  char line[MAX_LINE_LEN];             // string to represent a single command
-  char commands_arr[5][MAX_LINE_LEN];  // array that holds the commands read from shared memory, will set up to be dynamic later
+  int SIZE = 4096;               // size in bytes of shared memory object
+  char* name = "OS";             // named of shared memory object
+  int shm_fd;                    // shared memory file descriptor
+  void* mem_ptr;                 // pointer to shared memory object
+  char line[MAX_LINE_LEN];       // string to represent a single command
+  COMMAND_INFO commands_arr[5];  // array that holds the commands read from shared memory, will set up to be dynamic later
 
   int count = 0;  //temporary, for testing currently
 
@@ -86,19 +93,88 @@ int main() {
     // each token represents a different linux command string, and is added to the array.
     while (token != NULL) {
       // printf("\n\ntoken is: %s\n", token);
-      strcpy(commands_arr[count], token);
+      strcpy(commands_arr[count].full_command, token);
+      strcpy(commands_arr[count].command, token);
       count++;
       token = strtok(NULL, delimiter);  // move to next token
     }
-    // ================== testing ==================== //
-    /*
-    printf("\nSplitting completed.\n");
-    for (int i = 0; i < 5; i++) {
-      printf("Command at index %d is: %s\n", i, commands_arr[i]);
-    }
-    */
 
-    // ================== testing =================== //
+    pid_t pid_2 = fork();
+
+    if (pid_2 < 0) {
+      fprintf(stderr, "An error occurred while forking.");
+      exit(1);
+    } else if (pid_2 == 0) {
+      // child
+      count = 0;
+      char* token;
+      const char delimiter[2] = " ";  // split on blank spaces
+
+      for (int i = 0; i < 5; i++) {
+        // will change this to not be hardcoded when the dynamic array is setup properly
+        if (i != 4) {
+          commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
+          commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
+        }
+
+        token = strtok(commands_arr[i].command, delimiter);  // first token
+        while (token != NULL) {
+          //printf("\ntoken is: %s\n", token);
+          strcpy(commands_arr[i].flags[count], token);  // add flags to flag array
+          token = strtok(NULL, delimiter);              // next token
+          count++;
+        }
+        commands_arr[i].num_flags = count;
+        count = 0;
+
+        printf("Command at index %d is: %s\n", i, commands_arr[i].full_command);
+
+        //char* terminator = NULL;  // needed for execvp call (last arg must be null)
+        //strcpy(commands_arr[i].flags[count + 1], terminator);
+
+        //system(commands_arr[i].full_command);
+      }
+      //char* terminator = NULL;  // needed for execvp call (last arg must be null)
+
+      // printf("first command is: %s\n", commands_arr[0].flags[0]);
+      // //strcpy(argv[0], commands_arr[0].flags[0]);
+      // argv[0] = commands_arr[0].flags[0];
+      // argv[1] = commands_arr[0].flags[1];
+      // argv[2] = NULL;
+      // execvp(argv[0], argv);
+
+      for (int i = 0; i < 5; i++) {
+        char* argv[5];
+        printf("num_flags for the command is: %d\n", commands_arr[i].num_flags);
+        count = 0;
+        while (count != commands_arr[i].num_flags) {
+          argv[count] = commands_arr[i].flags[count];
+          count++;
+        }
+        argv[commands_arr[i].num_flags] = NULL;
+        // execvp(argv[0], argv);
+        //system(commands_arr[i].full_command);
+      }
+      //printf("argv[0] is: %s\n", argv[0]);
+      //execvp(commands_arr[0].flags[0], argv);
+      //execvp(commands_arr->flags[0], commands_arr->flags);
+      // for (int i = 0; i < 5; i++) {
+      // }
+      // printf("testing execvp... \n");
+      // char* cmd = "pwd";
+      // char* argv[3];
+      // argv[0] = "pwd";
+      // argv[1] = NULL;
+      // argv[1] = "-l";
+      // argv[2] = "-a";
+      // argv[3] = "-F";
+      // argv[4] = NULL;
+
+      //execvp(cmd, argv);
+    } else {
+      wait(NULL);
+      // parent
+    }
   }
 
   return 0;
