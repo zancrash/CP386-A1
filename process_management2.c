@@ -37,8 +37,6 @@ void writeOutput(char* command, char* output) {
 }
 
 void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
-  pid_t pid_2 = fork();
-  int status;
   int fd[2];
 
   // fd[0] - read from, fd[1] - write from
@@ -47,41 +45,39 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
     exit(-1);
   }  // create pipe
 
+  pid_t pid_2 = fork();
+
   if (pid_2 < 0) {
     fprintf(stderr, "An error occurred while forking.");
     exit(1);
   } else if (pid_2 == 0) {
     // child
-    close(fd[0]);                                               // not reading, so close
-    printf("\nCommand executed: %s\n", cmd_info.full_command);  // testing only
+    // printf("\nCommand executed: %s\n", cmd_info.full_command);  // testing only
+    dup2(fd[1], STDOUT_FILENO);  // redirect output to write pipe
+    close(fd[1]);                // close when done writing.
+    close(fd[0]);                // not reading, so close this end
 
-    // need to redirect output with dup2()
-    execvp(args[0], args);  //exec works w/o problem holy shit
+    execvp(args[0], args);  // output from execution gets redirected
 
-    // if (write(fd[1], something, some_size) == -1) {
-    // printf("An error occurred while writing to the pipe.\n");
-    // exit(-1);
-    //};
-
-    close(fd[1]);  // close when done writing.
-
-    //handle the pipes now, and thats p much it?
   } else {
     // parent
+    int status;
     wait(&status);
-    close(fd[1]);  // not writing, so close.
+    char buff[2048];
+    // buff[0] = '\0';
+    close(fd[1]);  // not writing, so close this end.
 
-    //if (read(fd[0], something, some_size) == -1) {
-    // printf("An error occurred while reading from the pipe.\n");
-    // exit(-1);
-    //}
-
+    if (read(fd[0], buff, sizeof(buff) - 1) == -1) {
+      printf("An error occurred while reading from the pipe.\n");
+      exit(-1);
+    }
     close(fd[0]);  // close when done reading.
 
-    // TODO:
-    // read from the pipe that the child wrote to
-    // compile/set up the string from the massive output generated
-    // once the output string is created, just call on writeOutput()
+    printf("Command is: %s\n", cmd_info.full_command);
+    printf("\nBuffer looks like: %s\n", buff);
+
+    // call on writeOutput next?
+    writeOutput(cmd_info.full_command, buff);
   }
 }
 

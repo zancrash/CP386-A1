@@ -30,3 +30,612 @@ num_flags for the command is: 4
 num_flags for the command is: 1
 num_flags for the command is: 2
 num_flags for the command is: 1
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.5G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 76
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  1733 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+­"<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+6
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  1733 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+­"<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 1 hour, 58 minutes
+mklaso mklaso  4096 Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  1733 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+­"<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  1733 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+­"<<<<<<<<<<<<<<<
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.5G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 80
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  6038 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÔW<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+0
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  6038 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÔW<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 1 hour, 59 minutes
+mklaso mklaso  4096 Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  6038 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÔW<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+Jun  5 14:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:22 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 04:05 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso  6038 Jun  5 14:27 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÔW<<<<<<<<<<<<<<<
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.6G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 84
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 10345 Jun  5 14:35 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:35 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿa<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+4
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 10345 Jun  5 14:35 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:35 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿa<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 2 hours, 6 minutes
+mklaso mklaso  4096 Jun  5 14:35 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 10345 Jun  5 14:35 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:35 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿa<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+Jun  5 14:35 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 10345 Jun  5 14:35 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:35 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿa<<<<<<<<<<<<<<<
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.5G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+Q<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 88
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:36 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 14652 Jun  5 14:36 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:36 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+8
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:36 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 14652 Jun  5 14:36 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:36 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 2 hours, 7 minutes
+mklaso mklaso  4096 Jun  5 14:36 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 14652 Jun  5 14:36 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:36 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+Jun  5 14:36 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   695 Jun  5 14:35 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 14652 Jun  5 14:36 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:36 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+<<<<<<<<<<<<<<<
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.6G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+«<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 92
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 18943 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ¾«<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+2
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 18943 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ¾«<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 2 hours, 9 minutes
+mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 18943 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ¾«<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 18943 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6636 Jun  5 14:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ¾«<<<<<<<<<<<<<<<
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.6G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+±<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 96
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 23250 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6634 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+_±<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+6
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 23250 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6634 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+_±<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 2 hours, 9 minutes
+mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 23250 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6634 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+_±<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 23250 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17640 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6634 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+_±<<<<<<<<<<<<<<<
+The output of: free -h : is
+>>>>>>>>>>>>>>>
+              total        used        free      shared  buff/cache   available
+Mem:            15G        5.6G         10G         17M        223M         10G
+Swap:           29G          0B         29G
+<<<<<<<<<<<<<<<
+The output of: ls -l -a -F : is
+>>>>>>>>>>>>>>>
+total 100
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 27555 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17648 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6632 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ<<<<<<<<<<<<<<<
+The output of: whoami : is
+>>>>>>>>>>>>>>>
+mklaso
+00
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 27555 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17648 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6632 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ<<<<<<<<<<<<<<<
+The output of: uptime -p : is
+>>>>>>>>>>>>>>>
+up 2 hours, 9 minutes
+ mklaso mklaso  4096 Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 27555 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17648 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6632 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ<<<<<<<<<<<<<<<
+The output of: pwd : is
+>>>>>>>>>>>>>>>
+/mnt/c/Users/mklas/Desktop/cp386/CP386-A1
+ Jun  5 14:37 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 14:35 .git/
+-rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
+drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
+-rwxrwxrwx 1 mklaso mklaso   678 Jun  5 14:37 Makefile*
+-rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
+-rwxrwxrwx 1 mklaso mklaso 27555 Jun  5 14:37 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17648 Jun  5 14:37 process_management*
+-rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 01:20 process_management.c*
+-rwxrwxrwx 1 mklaso mklaso  6632 Jun  5 14:37 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
+-rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
+-rwxrwxrwx 1 mklaso mklaso   690 Jun  5 01:18 z_creator.c*
+-rwxrwxrwx 1 mklaso mklaso 11024 Jun  3 21:31 z_terminator*
+-rwxrwxrwx 1 mklaso mklaso   942 Jun  5 01:18 z_terminator.c*
+ÿ<<<<<<<<<<<<<<<
