@@ -84,100 +84,110 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
 int main(int argc, char* argv[]) {
   if (argc <= 1) {
     printf("No input file given. Please try again.");
-  } else {
-    int SIZE = 4096;               // size in bytes of shared memory object
-    char* name = "OS";             // named of shared memory object
-    int shm_fd;                    // shared memory file descriptor
-    void* mem_ptr;                 // pointer to shared memory object
-    char line[MAX_LINE_LEN];       // string to represent a single command
-    COMMAND_INFO commands_arr[5];  // array that holds the commands read from shared memory, will set up to be dynamic later
-
-    int count = 0;  //temporary, for testing currently
-
-    pid_t pid = fork();  // first child for reading file/writing to shared memory
-
-    if (pid < 0) {
-      fprintf(stderr, "An error occurred while forking.");
-      exit(1);
-    } else if (pid == 0) {
-      // child
-      FILE* fp = fopen(argv[1], "r");  //argv[1] holds the input file to read from
-
-      shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);             // create shared memory
-      ftruncate(shm_fd, SIZE);                                     // setup size of shared memory
-      mem_ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);  // map the shared memory
-
-      // read from file and write each line to shared memory
-      while (fgets(line, MAX_LINE_LEN - 1, fp) != NULL) {
-        // printf("line looks like: %s\n", line);
-        sprintf(mem_ptr, "%s", line);
-        mem_ptr += strlen(line);
-      }
-      fclose(fp);
-      close(shm_fd);  // close shared memory
-      exit(0);        // end child process
-    }
-    // parent
-    wait(NULL);
-
-    shm_fd = shm_open(name, O_RDONLY, 0666);                    // open shared memory
-    mem_ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);  // map the shared memory
-    close(shm_fd);                                              // close shared memory
-    shm_unlink(name);                                           // remove shared memory object
-
-    // split the read memory string into separate command strings
-    count = 0;
-    char* token;
-    const char delimiter[2] = "\n";
-    char shared_memory_result[MAX_LINE_LEN];
-    strcpy(shared_memory_result, mem_ptr);
-    token = strtok(shared_memory_result, delimiter);  // initial starting token (1st command)
-
-    // each token represents a different linux command string, and is added to the array.
-    while (token != NULL) {
-      // printf("\n\ntoken is: %s\n", token);
-      strcpy(commands_arr[count].full_command, token);
-      strcpy(commands_arr[count].command, token);
-      count++;
-      token = strtok(NULL, delimiter);  // move to next token
-    }
-
-    // split each command string into separate pieces (so flags can be identified)
-    count = 0;
-    char* tokens;
-    const char delimiters[2] = " ";  // split on blank spaces
-
-    for (int i = 0; i < 5; i++) {
-      // will change this to not be hardcoded when the dynamic array is setup properly
-      if (i != 4) {
-        commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
-        commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
-      }
-
-      tokens = strtok(commands_arr[i].command, delimiters);  // first token
-      while (tokens != NULL) {
-        strcpy(commands_arr[i].flags[count], tokens);  // add flags to flag array
-        tokens = strtok(NULL, delimiters);             // next token
-        count++;
-      }
-      commands_arr[i].num_flags = count;  // set the total # of flags for each command
-      count = 0;
-    }
-
-    // iteratively call on helper function to fork and perform execvp() calls
-    for (int i = 0; i < 5; i++) {
-      char* args[5];
-      count = 0;
-      while (count != commands_arr[i].num_flags) {
-        args[count] = commands_arr[i].flags[count];
-        count++;
-      }
-      args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL
-
-      read_from_and_write_to_pipe(args, commands_arr[i]);
-      //writeOutput()?
-    }
-
-    return 0;
   }
+  int MEM_SIZE = 4096;                                                   // size in bytes of shared memory object
+  char* shared_mem_name = "OS";                                          // named of shared memory object
+  int shm_fd;                                                            // shared memory file descriptor
+  void* mem_ptr;                                                         // pointer to shared memory object
+  char line[MAX_LINE_LEN];                                               // string to represent a single command
+  int arr_size = 1;                                                      // size of dynamic array at start is 1
+  int num_elements = 0;                                                  // total # of elements in array at start
+  COMMAND_INFO* commands_arr = malloc(arr_size * sizeof(COMMAND_INFO));  // array that holds the commands read from shared memory, will set up to be dynamic later
+
+  int count = 0;  //temporary, for testing currently
+
+  pid_t pid = fork();  // first child for reading file/writing to shared memory
+
+  if (pid < 0) {
+    fprintf(stderr, "An error occurred while forking.");
+    exit(1);
+  } else if (pid == 0) {
+    // child
+    FILE* fp = fopen(argv[1], "r");  //argv[1] holds the input file to read from
+
+    shm_fd = shm_open(shared_mem_name, O_CREAT | O_RDWR, 0666);      // create shared memory
+    ftruncate(shm_fd, MEM_SIZE);                                     // setup size of shared memory
+    mem_ptr = mmap(0, MEM_SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);  // map the shared memory
+
+    // read from file and write each line to shared memory
+    while (fgets(line, MAX_LINE_LEN - 1, fp) != NULL) {
+      // printf("line looks like: %s\n", line);
+      sprintf(mem_ptr, "%s", line);
+      mem_ptr += strlen(line);
+    }
+    fclose(fp);
+    close(shm_fd);  // close shared memory
+    exit(0);        // end child process
+  }
+  // parent
+  wait(NULL);
+
+  shm_fd = shm_open(shared_mem_name, O_RDONLY, 0666);             // open shared memory
+  mem_ptr = mmap(0, MEM_SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);  // map the shared memory
+
+  close(shm_fd);                // close shared memory
+  shm_unlink(shared_mem_name);  // remove shared memory object
+
+  // split the read memory string into separate command strings
+  char* token;
+  const char delimiter[2] = "\n";
+  char shared_memory_result[MAX_LINE_LEN];
+  strcpy(shared_memory_result, mem_ptr);
+  token = strtok(shared_memory_result, delimiter);  // initial starting token (1st command)
+
+  // each token represents a different linux command string, and is added to the array.
+  while (token != NULL) {
+    // printf("\n\ntoken is: %s\n", token);
+    if (num_elements == arr_size) {                                           // check if there is space in array
+      arr_size *= 2;                                                          // double the size of array
+      commands_arr = realloc(commands_arr, arr_size * sizeof(COMMAND_INFO));  // allocate more memory for elements.
+    }
+
+    strcpy(commands_arr[num_elements].full_command, token);
+    strcpy(commands_arr[num_elements].command, token);
+    num_elements++;
+    token = strtok(NULL, delimiter);  // move to next token
+  }
+
+  // split each command string into separate pieces (so flags can be identified)
+  count = 0;
+  char* tokens;
+  const char delimiters[2] = " ";  // split on blank spaces
+
+  for (int i = 0; i < num_elements; i++) {
+    // will change this to not be hardcoded when the dynamic array is setup properly
+    if (i != num_elements - 1) {
+      commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
+      commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
+    }
+
+    tokens = strtok(commands_arr[i].command, delimiters);  // first token
+    while (tokens != NULL) {
+      strcpy(commands_arr[i].flags[count], tokens);  // add flags to flag array
+      tokens = strtok(NULL, delimiters);             // next token
+      count++;
+    }
+    commands_arr[i].num_flags = count;  // set the total # of flags for each command
+    count = 0;
+  }
+
+  // iteratively call on helper function to fork and perform execvp() calls
+  for (int i = 0; i < num_elements; i++) {
+    char* args[num_elements];
+    count = 0;
+    while (count != commands_arr[i].num_flags) {
+      args[count] = commands_arr[i].flags[count];
+      count++;
+    }
+    args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL
+
+    read_from_and_write_to_pipe(args, commands_arr[i]);
+  }
+
+  // for (int i = 0; i < num_elements; i++) {
+  //   free(commands_arr[i]);
+  // }
+  free(commands_arr);
+
+  return 0;
 }

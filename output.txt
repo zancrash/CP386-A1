@@ -1,23 +1,23 @@
 The output of: free -h : is
 >>>>>>>>>>>>>>>
               total        used        free      shared  buff/cache   available
-Mem:            15G        6.1G        9.6G         17M        223M        9.7G
+Mem:            15G        6.8G        8.9G         17M        223M        9.0G
 Swap:           29G          0B         29G
 <<<<<<<<<<<<<<<
 The output of: ls -l -a -F : is
 >>>>>>>>>>>>>>>
 total 76
-drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 17:27 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 19:25 ./
 drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
-drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 17:27 .git/
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 19:20 .git/
 -rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
 drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
--rwxrwxrwx 1 mklaso mklaso   663 Jun  5 17:27 Makefile*
+-rwxrwxrwx 1 mklaso mklaso   663 Jun  5 19:20 Makefile*
 -rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
--rwxrwxrwx 1 mklaso mklaso   264 Jun  5 17:27 output.txt*
--rwxrwxrwx 1 mklaso mklaso 17664 Jun  5 17:27 process_management*
+-rwxrwxrwx 1 mklaso mklaso   264 Jun  5 19:25 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17880 Jun  5 19:25 process_management*
 -rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 14:38 process_management.c*
--rwxrwxrwx 1 mklaso mklaso  6502 Jun  5 17:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso  7252 Jun  5 19:25 process_management2.c*
 -rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
 -rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
 -rwxrwxrwx 1 mklaso mklaso   690 Jun  5 14:38 z_creator.c*
@@ -30,7 +30,7 @@ mklaso
 <<<<<<<<<<<<<<<
 The output of: uptime -p : is
 >>>>>>>>>>>>>>>
-up 1 hour, 6 minutes
+up 3 hours, 4 minutes
 <<<<<<<<<<<<<<<
 The output of: pwd : is
 >>>>>>>>>>>>>>>
@@ -39,23 +39,23 @@ The output of: pwd : is
 The output of: free -h : is
 >>>>>>>>>>>>>>>
               total        used        free      shared  buff/cache   available
-Mem:            15G        6.1G        9.6G         17M        223M        9.7G
+Mem:            15G        6.8G        8.9G         17M        223M        9.0G
 Swap:           29G          0B         29G
 <<<<<<<<<<<<<<<
 The output of: ls -l -a -F : is
 >>>>>>>>>>>>>>>
 total 76
-drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 17:28 ./
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 19:25 ./
 drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 04:14 ../
-drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 17:27 .git/
+drwxrwxrwx 1 mklaso mklaso  4096 Jun  5 19:20 .git/
 -rwxrwxrwx 1 mklaso mklaso     8 Jun  5 04:03 .gitignore*
 drwxrwxrwx 1 mklaso mklaso  4096 May 31 16:45 .vscode/
--rwxrwxrwx 1 mklaso mklaso   663 Jun  5 17:27 Makefile*
+-rwxrwxrwx 1 mklaso mklaso   663 Jun  5 19:20 Makefile*
 -rwxrwxrwx 1 mklaso mklaso    44 May 31 23:28 README.md*
--rwxrwxrwx 1 mklaso mklaso  1785 Jun  5 17:28 output.txt*
--rwxrwxrwx 1 mklaso mklaso 17664 Jun  5 17:28 process_management*
+-rwxrwxrwx 1 mklaso mklaso  1786 Jun  5 19:25 output.txt*
+-rwxrwxrwx 1 mklaso mklaso 17880 Jun  5 19:25 process_management*
 -rwxrwxrwx 1 mklaso mklaso  7915 Jun  5 14:38 process_management.c*
--rwxrwxrwx 1 mklaso mklaso  6502 Jun  5 17:27 process_management2.c*
+-rwxrwxrwx 1 mklaso mklaso  7252 Jun  5 19:25 process_management2.c*
 -rwxrwxrwx 1 mklaso mklaso    44 Jun  4 02:51 sample_in.txt*
 -rwxrwxrwx 1 mklaso mklaso 11312 Jun  2 23:49 z_creator*
 -rwxrwxrwx 1 mklaso mklaso   690 Jun  5 14:38 z_creator.c*
@@ -68,7 +68,7 @@ mklaso
 <<<<<<<<<<<<<<<
 The output of: uptime -p : is
 >>>>>>>>>>>>>>>
-up 1 hour, 6 minutes
+up 3 hours, 4 minutes
 <<<<<<<<<<<<<<<
 The output of: pwd : is
 >>>>>>>>>>>>>>>
