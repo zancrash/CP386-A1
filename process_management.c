@@ -21,7 +21,7 @@
 
 #define SIZE 4096
 #define SHM "PROC_SHM"
-#define BUFFER_SIZE 65536
+#define BUFFER_SIZE 6024
 
 void writeOutput(char* command, char* output) {
   FILE* fp = fopen("output.txt", "a");  //append to end of file
@@ -44,10 +44,10 @@ int main(int argc, char* argv[]){
     //void* mem_ptr;                 // pointer to shared memory object
     //char *mem_ptr
 
-    shm_fd = shm_open(SHM , O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    shm_fd = shm_open(SHM, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     //shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);             // create shared memory
     ftruncate(shm_fd, SIZE);                                     // setup size of shared memory
-    char *mem_ptr = mmap(NULL , SIZE , PROT_READ | PROT_WRITE , MAP_SHARED , shm_fd , 0);
+    char *mem_ptr = mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     //mem_ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);  // map the shared memory
 
     pid_t pid = fork();
@@ -68,9 +68,7 @@ int main(int argc, char* argv[]){
       if(line_read == 0){
         exit(-1);
       }
-
       mem_ptr[line_read] = '\0';
-
       exit(0);
     }
 
@@ -89,8 +87,8 @@ int main(int argc, char* argv[]){
         x++;
     }
     
-    if(x > 0 && mem_ptr[x - 1] == '\n'){
-        mem_ptr[x - 1] = '\0';
+    if(x > 0 && mem_ptr[x-1] == '\n'){
+        mem_ptr[x-1] = '\0';
         lines--;
     }
     lines += 1;
@@ -98,7 +96,7 @@ int main(int argc, char* argv[]){
 
 //----------------------------------
     //command array
-    char** commands_arr = malloc(sizeof(char*) * lines);
+    char** commands_arr = malloc(sizeof(char*)*lines);
 
     //copy commands
     int offset = 0;
@@ -113,10 +111,10 @@ int main(int argc, char* argv[]){
     munmap(mem_ptr , SIZE); //unmap virtual mem
     close(shm_fd); //close shared mem
 
-    //allocate a buffer to store the ouptut from childs
+    //buffer to store output
     char* buffer = malloc(sizeof(char)*BUFFER_SIZE);
 
-    //repeat for each child
+    //iterate for each child
     for(int i=0; i<lines; i++){
 
         char* cmd_current = strdup(commands_arr[i]);
@@ -151,8 +149,8 @@ int main(int argc, char* argv[]){
             perror("Failed to initiate pipe.");
             exit(-1);
         }
-        //call fork and create a child
 
+        //fork
         pid_t pid_2 = fork();
 
         if(pid_2 == 0){
