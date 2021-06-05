@@ -1,3 +1,12 @@
+/*
+----------------------------------------------------
+ Project: 201764720_yourLaurierID_a01_q12
+ File:    z_terminator.c
+ Authors:  Martin Klasninovski | yourName
+ Laurier IDs: 201764720 | yourLaurierID
+----------------------------------------------------
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

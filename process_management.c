@@ -1,3 +1,12 @@
+/*
+----------------------------------------------------
+ Project: 201764720_yourLaurierID_a01_q02
+ File:    process_management.c
+ Authors:  Martin Klasninovski | yourName
+ Laurier IDs: 201764720 | yourLaurierID
+----------------------------------------------------
+*/
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
