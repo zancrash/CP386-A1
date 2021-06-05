@@ -160,11 +160,6 @@ int main(int argc, char* argv[]) {
         wait(NULL);
         // parent
 
-        //Wrote this before pulling latest changes, not sure if in right spot..
-
-        munmap(mem_ptr);
-        close(shm_fd);  // close shared memory
-
         //initialize buffer to store output
         char* buffer = malloc(sizeof(char) * BUFFER);
 
