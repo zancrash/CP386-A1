@@ -18,6 +18,16 @@ void writeOutput(char* command, char* output) {
   fclose(fp);
 }
 
+//function to parse and execute command
+void execute_cmd(char* const args[], int writepipe) {
+  if (dup2(writepipe, STDOUT_FILENO) == -1) {
+    perror("error dup2");
+    exit(-1);
+  }
+
+  execvp(args[0], args);
+}
+
 #define MAX_LINE_LEN 60
 
 typedef struct command_info {
@@ -149,8 +159,58 @@ int main(int argc, char* argv[]) {
       } else {
         wait(NULL);
         // parent
+
+        //Wrote this before pulling latest changes, not sure if in right spot..
+
+        munmap(mem_ptr);
+        close(shm_fd);  // close shared memory
+
+        //initialize buffer to store output
+        char* buffer = malloc(sizeof(char) * BUFFER);
+
+        //Ignore this, was trying something...
+        /*
+        for (int i = 0; i<5; i++){
+          char* cmd = strdup(commands_arr[i]);
+        }*/
+
+        //create pipe
+        int pipefd[2];
+
+        //check for error
+        if (pipe[pipefd] == -1) {
+          perror("Failed to create pipe.");
+          exit(-1);
+        }
+
+        if (fork() == 0) {
+          //close read-end of pipe
+          close(pipefd[0]);
+
+          //execute command here
+          execute_cmd(argv, pipefd[1]);
+
+          exit(0);
+        }
+
+        //close write-end of pipe
+        close(pipefd[1]);
+        wait(NULL);
+
+        //get pipe output
+        int read_n = read(pipefd[0], buffer, BUFFER - 1);
+
+        //close pipe
+        close(pipefd[0]);
+
+        buffer[read_n] = '\0';
+
+        //write to output.txt here?
+        writeOutput()
       }
     }
+
+    free(buffer);
 
     return 0;
   }
