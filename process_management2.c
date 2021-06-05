@@ -52,33 +52,30 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
     exit(1);
   } else if (pid_2 == 0) {
     // child
-    // printf("\nCommand executed: %s\n", cmd_info.full_command);  // testing only
+    close(fd[0]);                // not reading, so close this end
     dup2(fd[1], STDOUT_FILENO);  // redirect output to write pipe
     close(fd[1]);                // close when done writing.
-    close(fd[0]);                // not reading, so close this end
 
     execvp(args[0], args);  // output from execution gets redirected
-
-  } else {
-    // parent
-    int status;
-    wait(&status);
-    char buff[2048];
-    // buff[0] = '\0';
-    close(fd[1]);  // not writing, so close this end.
-
-    if (read(fd[0], buff, sizeof(buff) - 1) == -1) {
-      printf("An error occurred while reading from the pipe.\n");
-      exit(-1);
-    }
-    close(fd[0]);  // close when done reading.
-
-    printf("Command is: %s\n", cmd_info.full_command);
-    printf("\nBuffer looks like: %s\n", buff);
-
-    // call on writeOutput next?
-    writeOutput(cmd_info.full_command, buff);
   }
+  // parent
+  int status;
+  wait(&status);
+  char buff[1024];
+  memset(buff, 0, strlen(buff));  //zero out the buffer
+
+  close(fd[1]);  // not writing, so close this end.
+
+  if (read(fd[0], buff, sizeof(buff) - 1) == -1) {
+    printf("An error occurred while reading from the pipe.\n");
+    exit(-1);
+  }
+  close(fd[0]);  // close when done reading.
+
+  printf("Command is: %s\n", cmd_info.full_command);
+  printf("Output is: %s\n", buff);
+
+  //writeOutput()?
 }
 
 int main(int argc, char* argv[]) {
@@ -116,11 +113,9 @@ int main(int argc, char* argv[]) {
       fclose(fp);
       close(shm_fd);  // close shared memory
       exit(0);        // end child process
-
-    } else {
-      // parent
-      wait(NULL);
     }
+    // parent
+    wait(NULL);
 
     shm_fd = shm_open(name, O_RDONLY, 0666);                    // open shared memory
     mem_ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);  // map the shared memory
@@ -158,15 +153,12 @@ int main(int argc, char* argv[]) {
 
       tokens = strtok(commands_arr[i].command, delimiters);  // first token
       while (tokens != NULL) {
-        //printf("\ntoken is: %s\n", token);
         strcpy(commands_arr[i].flags[count], tokens);  // add flags to flag array
         tokens = strtok(NULL, delimiters);             // next token
         count++;
       }
-      commands_arr[i].num_flags = count;
+      commands_arr[i].num_flags = count;  // set the total # of flags for each command
       count = 0;
-
-      //printf("Command at index %d is: %s\n", i, commands_arr[i].full_command);
     }
 
     // iteratively call on helper function to fork and perform execvp() calls
@@ -178,7 +170,9 @@ int main(int argc, char* argv[]) {
         count++;
       }
       args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL
+
       read_from_and_write_to_pipe(args, commands_arr[i]);
+      //writeOutput()?
     }
 
     return 0;
