@@ -18,6 +18,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#define MAX_LINE_LEN 60
+
+typedef struct command_info {
+  char full_command[MAX_LINE_LEN];  // entire command with flags
+  char flags[5][10];                //make dynamic later
+  char command[MAX_LINE_LEN];       // only the command
+  int num_flags;
+} COMMAND_INFO;
+
 void writeOutput(char* command, char* output) {
   FILE* fp = fopen("output.txt", "a");  //append to end of file
 
@@ -27,14 +36,54 @@ void writeOutput(char* command, char* output) {
   fclose(fp);
 }
 
-#define MAX_LINE_LEN 60
+void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
+  pid_t pid_2 = fork();
+  int status;
+  int fd[2];
 
-typedef struct command_info {
-  char full_command[MAX_LINE_LEN];  // entire command with flags
-  char flags[5][10];                //make dynamic later
-  char command[MAX_LINE_LEN];       // only the command
-  int num_flags;
-} COMMAND_INFO;
+  // fd[0] - read from, fd[1] - write from
+  if (pipe(fd) == -1) {
+    fprintf(stderr, "An error occured while opening the pipe \n");
+    exit(-1);
+  }  // create pipe
+
+  if (pid_2 < 0) {
+    fprintf(stderr, "An error occurred while forking.");
+    exit(1);
+  } else if (pid_2 == 0) {
+    // child
+    close(fd[0]);                                               // not reading, so close
+    printf("\nCommand executed: %s\n", cmd_info.full_command);  // testing only
+
+    // need to redirect output with dup2()
+    execvp(args[0], args);  //exec works w/o problem holy shit
+
+    // if (write(fd[1], something, some_size) == -1) {
+    // printf("An error occurred while writing to the pipe.\n");
+    // exit(-1);
+    //};
+
+    close(fd[1]);  // close when done writing.
+
+    //handle the pipes now, and thats p much it?
+  } else {
+    // parent
+    wait(&status);
+    close(fd[1]);  // not writing, so close.
+
+    //if (read(fd[0], something, some_size) == -1) {
+    // printf("An error occurred while reading from the pipe.\n");
+    // exit(-1);
+    //}
+
+    close(fd[0]);  // close when done reading.
+
+    // TODO:
+    // read from the pipe that the child wrote to
+    // compile/set up the string from the massive output generated
+    // once the output string is created, just call on writeOutput()
+  }
+}
 
 int main(int argc, char* argv[]) {
   if (argc <= 1) {
@@ -49,8 +98,7 @@ int main(int argc, char* argv[]) {
 
     int count = 0;  //temporary, for testing currently
 
-    pid_t pid;
-    pid = fork();  // first child for reading file/writing to shared memory
+    pid_t pid = fork();  // first child for reading file/writing to shared memory
 
     if (pid < 0) {
       fprintf(stderr, "An error occurred while forking.");
@@ -59,14 +107,9 @@ int main(int argc, char* argv[]) {
       // child
       FILE* fp = fopen(argv[1], "r");  //argv[1] holds the input file to read from
 
-      // create shared memory
-      shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-
-      // setup size of shared memory
-      ftruncate(shm_fd, SIZE);
-
-      // map the shared memory
-      mem_ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+      shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);             // create shared memory
+      ftruncate(shm_fd, SIZE);                                     // setup size of shared memory
+      mem_ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);  // map the shared memory
 
       // read from file and write each line to shared memory
       while (fgets(line, MAX_LINE_LEN - 1, fp) != NULL) {
@@ -76,99 +119,70 @@ int main(int argc, char* argv[]) {
       }
       fclose(fp);
       close(shm_fd);  // close shared memory
+      exit(0);        // end child process
 
     } else {
       // parent
       wait(NULL);
+    }
 
-      // open shared memory
-      shm_fd = shm_open(name, O_RDONLY, 0666);
+    shm_fd = shm_open(name, O_RDONLY, 0666);                    // open shared memory
+    mem_ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);  // map the shared memory
+    close(shm_fd);                                              // close shared memory
+    shm_unlink(name);                                           // remove shared memory object
 
-      // map the shared memory
-      mem_ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
+    // split the read memory string into separate command strings
+    count = 0;
+    char* token;
+    const char delimiter[2] = "\n";
+    char shared_memory_result[MAX_LINE_LEN];
+    strcpy(shared_memory_result, mem_ptr);
+    token = strtok(shared_memory_result, delimiter);  // initial starting token (1st command)
 
-      // print shared memory result
-      // printf("%s", (char*)mem_ptr);
+    // each token represents a different linux command string, and is added to the array.
+    while (token != NULL) {
+      // printf("\n\ntoken is: %s\n", token);
+      strcpy(commands_arr[count].full_command, token);
+      strcpy(commands_arr[count].command, token);
+      count++;
+      token = strtok(NULL, delimiter);  // move to next token
+    }
 
-      // remove shared memory object
-      shm_unlink(name);
-      kill(pid, SIGKILL);  // end child process after done writing to memory
+    // split each command string into separate pieces (so flags can be identified)
+    count = 0;
+    char* tokens;
+    const char delimiters[2] = " ";  // split on blank spaces
 
-      // split the read memory string into separate command strings
-      count = 0;
-      char* token;
-      const char delimiter[2] = "\n";
-      char shared_memory_result[MAX_LINE_LEN];
-      strcpy(shared_memory_result, mem_ptr);
-      token = strtok(shared_memory_result, delimiter);  // initial starting token (1st command)
+    for (int i = 0; i < 5; i++) {
+      // will change this to not be hardcoded when the dynamic array is setup properly
+      if (i != 4) {
+        commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
+        commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
+      }
 
-      // each token represents a different linux command string, and is added to the array.
-      while (token != NULL) {
-        // printf("\n\ntoken is: %s\n", token);
-        strcpy(commands_arr[count].full_command, token);
-        strcpy(commands_arr[count].command, token);
+      tokens = strtok(commands_arr[i].command, delimiters);  // first token
+      while (tokens != NULL) {
+        //printf("\ntoken is: %s\n", token);
+        strcpy(commands_arr[i].flags[count], tokens);  // add flags to flag array
+        tokens = strtok(NULL, delimiters);             // next token
         count++;
-        token = strtok(NULL, delimiter);  // move to next token
       }
-
-      // split each command string into separate pieces (so flags can be identified)
+      commands_arr[i].num_flags = count;
       count = 0;
-      char* tokens;
-      const char delimiters[2] = " ";  // split on blank spaces
 
-      for (int i = 0; i < 5; i++) {
-        // will change this to not be hardcoded when the dynamic array is setup properly
-        if (i != 4) {
-          commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
-          commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
-        }
+      //printf("Command at index %d is: %s\n", i, commands_arr[i].full_command);
+    }
 
-        tokens = strtok(commands_arr[i].command, delimiters);  // first token
-        while (tokens != NULL) {
-          //printf("\ntoken is: %s\n", token);
-          strcpy(commands_arr[i].flags[count], tokens);  // add flags to flag array
-          tokens = strtok(NULL, delimiters);             // next token
-          count++;
-        }
-        commands_arr[i].num_flags = count;
-        count = 0;
-
-        printf("Command at index %d is: %s\n", i, commands_arr[i].full_command);
+    // iteratively call on helper function to fork and perform execvp() calls
+    for (int i = 0; i < 5; i++) {
+      char* args[5];
+      count = 0;
+      while (count != commands_arr[i].num_flags) {
+        args[count] = commands_arr[i].flags[count];
+        count++;
       }
-
-      for (int i = 0; i < 5; i++) {
-        char* args[5];
-        printf("num_flags for the command is: %d\n", commands_arr[i].num_flags);
-        count = 0;
-        while (count != commands_arr[i].num_flags) {
-          args[count] = commands_arr[i].flags[count];
-          count++;
-        }
-        args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL final argument to execute properly
-
-        // create child process to execute the command and pipe output to parent process
-        pid_t pid_2 = fork();
-
-        if (pid_2 < 0) {
-          fprintf(stderr, "An error occurred while forking.");
-          exit(1);
-        } else if (pid_2 == 0) {
-          // child
-          int fd[2];  // file descriptor for pipe
-          //system(commands_arr[i].full_command);
-
-        } else {
-          // parent
-          wait(NULL);
-        }
-        // execvp(argv[0], argv);
-        // system(commands_arr[i].full_command);
-      }
-
-      // } else {
-      //   wait(NULL);
-      //   // parent
-      // }
+      args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL
+      read_from_and_write_to_pipe(args, commands_arr[i]);
     }
 
     return 0;
