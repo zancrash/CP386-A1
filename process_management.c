@@ -18,6 +18,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+
+#define SIZE 4096
+#define SHM "PROC_SHM"
+#define BUFFER_SIZE 65536
+
 void writeOutput(char* command, char* output) {
   FILE* fp = fopen("output.txt", "a");  //append to end of file
 
@@ -27,249 +32,169 @@ void writeOutput(char* command, char* output) {
   fclose(fp);
 }
 
-//function to parse and execute command
-void execute_cmd(char* const args[], int writepipe) {
-  if (dup2(writepipe, STDOUT_FILENO) == -1) {
-    perror("error dup2");
-    exit(-1);
-  }
+int main(int argc, char* argv[]){
 
-  execvp(args[0], args);
-}
+    if (argc <= 1) {
+      printf("No input file given. Please try again.");
+      exit(-1);
+    }
 
-#define MAX_LINE_LEN 60
-
-typedef struct command_info {
-  char full_command[MAX_LINE_LEN];  // entire command with flags
-  char flags[5][10];                //make dynamic later
-  char command[MAX_LINE_LEN];       // only the command
-  int num_flags;
-} COMMAND_INFO;
-
-int main(int argc, char* argv[]) {
-  if (argc <= 1) {
-    printf("No input file given. Please try again.");
-  } else {
-    int SIZE = 4096;               // size in bytes of shared memory object
-    char* name = "OS";             // named of shared memory object
+    //char* name = "OS";             // named of shared memory object
     int shm_fd;                    // shared memory file descriptor
-    void* mem_ptr;                 // pointer to shared memory object
-    char line[MAX_LINE_LEN];       // string to represent a single command
-    COMMAND_INFO commands_arr[5];  // array that holds the commands read from shared memory, will set up to be dynamic later
+    //void* mem_ptr;                 // pointer to shared memory object
+    //char *mem_ptr
 
-    int count = 0;  //temporary, for testing currently
+    shm_fd = shm_open(SHM , O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    //shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);             // create shared memory
+    ftruncate(shm_fd, SIZE);                                     // setup size of shared memory
+    char *mem_ptr = mmap(NULL , SIZE , PROT_READ | PROT_WRITE , MAP_SHARED , shm_fd , 0);
+    //mem_ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);  // map the shared memory
 
-    pid_t pid;
-    pid = fork();  // first child for reading file/writing to shared memory
+    pid_t pid = fork();
 
-    if (pid < 0) {
+    // read files within child process...
+    if (pid < 0){
       fprintf(stderr, "An error occurred while forking.");
       exit(1);
-    } else if (pid == 0) {
-      // child
-      FILE* fp = fopen(argv[1], "r");  //argv[1] holds the input file to read from
+    } else if(pid == 0){
 
-      // create shared memory
-      shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+      //CHILD
 
-      // setup size of shared memory
-      ftruncate(shm_fd, SIZE);
+      FILE *fp = fopen(argv[1], "r");
 
-      // map the shared memory
-      mem_ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+      //read contents
+      int line_read = fread(mem_ptr, 1, SIZE-1, fp);
 
-      // read from file and write each line to shared memory
-      while (fgets(line, MAX_LINE_LEN - 1, fp) != NULL) {
-        // printf("line looks like: %s\n", line);
-        sprintf(mem_ptr, "%s", line);
-        mem_ptr += strlen(line);
-      }
-      fclose(fp);
-      close(shm_fd);  // close shared memory
-
-    } else {
-      // parent
-      wait(NULL);
-
-      // open shared memory
-      shm_fd = shm_open(name, O_RDONLY, 0666);
-
-      // map the shared memory
-      mem_ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
-
-      // print shared memory result
-      // printf("%s", (char*)mem_ptr);
-
-      // remove shared memory object
-      shm_unlink(name);
-      kill(pid, SIGKILL);  // end child process after done writing to memory
-
-      // split the read memory string into separate command strings
-      count = 0;
-      char* token;
-      const char delimiter[2] = "\n";
-      char shared_memory_result[MAX_LINE_LEN];
-      strcpy(shared_memory_result, mem_ptr);
-      token = strtok(shared_memory_result, delimiter);  // initial starting token (1st command)
-
-      // each token represents a different linux command string, and is added to the array.
-      while (token != NULL) {
-        // printf("\n\ntoken is: %s\n", token);
-        strcpy(commands_arr[count].full_command, token);
-        strcpy(commands_arr[count].command, token);
-        count++;
-        token = strtok(NULL, delimiter);  // move to next token
+      if(line_read == 0){
+        exit(-1);
       }
 
-      pid_t pid_2 = fork();
+      mem_ptr[line_read] = '\0';
 
-      if (pid_2 < 0) {
-        fprintf(stderr, "An error occurred while forking.");
-        exit(1);
-      } else if (pid_2 == 0) {
-        // child
-        count = 0;
-        char* token;
-        const char delimiter[2] = " ";  // split on blank spaces
+      exit(0);
+    }
 
-        for (int i = 0; i < 5; i++) {
-          // will change this to not be hardcoded when the dynamic array is setup properly
-          if (i != 4) {
-            commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
-            commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
-          }
+    // PARENT
 
-          token = strtok(commands_arr[i].command, delimiter);  // first token
-          while (token != NULL) {
-            //printf("\ntoken is: %s\n", token);
-            strcpy(commands_arr[i].flags[count], token);  // add flags to flag array
-            token = strtok(NULL, delimiter);              // next token
-            count++;
-          }
-          commands_arr[i].num_flags = count;
-          count = 0;
+    //parse lines...
+    //char *mem;
+    int lines = 0;
+    int x = 0;
+    while (mem_ptr[x] != '\0') {
+        //if new line...
+        if (mem_ptr[x] == '\n'){
+            lines++;
+            mem_ptr[x] = '\0';
+        }
+        x++;
+    }
+    
+    if(x > 0 && mem_ptr[x - 1] == '\n'){
+        mem_ptr[x - 1] = '\0';
+        lines--;
+    }
+    lines += 1;
 
-          printf("Command at index %d is: %s\n", i, commands_arr[i].full_command);
+
+//----------------------------------
+    //command array
+    char** commands_arr = malloc(sizeof(char*) * lines);
+
+    //copy commands
+    int offset = 0;
+    for(int i=0; i<lines; i++){
+        commands_arr[i] = strdup(mem_ptr + offset);
+
+        // update offset var, add 1 for null char
+        offset += strlen(commands_arr[i]) + 1;
+    }
+    
+
+    munmap(mem_ptr , SIZE); //unmap virtual mem
+    close(shm_fd); //close shared mem
+
+    //allocate a buffer to store the ouptut from childs
+    char* buffer = malloc(sizeof(char)*BUFFER_SIZE);
+
+    //repeat for each child
+    for(int i=0; i<lines; i++){
+
+        char* cmd_current = strdup(commands_arr[i]);
+
+        //get no. of args
+        int argc = 0;
+        int len = strlen(cmd_current);
+        for(int i = 0; i < len; i++){
+          if(cmd_current[i] == ' '){
+            cmd_current[i] = '\0';
+            argc++;
+          } 
         }
 
-        for (int i = 0; i < 5; i++) {
-          char* args[5];
-          printf("num_flags for the command is: %d\n", commands_arr[i].num_flags);
-          count = 0;
-          while (count != commands_arr[i].num_flags) {
-            args[count] = commands_arr[i].flags[count];
-            count++;
-          }
-          args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL final argument to execute properly
-          // execvp(argv[0], argv);
-          system(commands_arr[i].full_command);
+        argc = argc+1;
+
+        //create a new arr
+        char* cmd_array[argc + 1];
+        //set pointer
+        int arg_offset = 0;
+        for(int i = 0; i < argc; i++){
+            cmd_array[i] = cmd_current + arg_offset;
+            arg_offset += strlen(cmd_array[i]) + 1;
         }
 
-      } else {
-        wait(NULL);
-        // parent
-
-        //initialize buffer to store output
-        char* buffer = malloc(sizeof(char) * BUFFER);
-
-        //Ignore this, was trying something...
-        /*
-        for (int i = 0; i<5; i++){
-          char* cmd = strdup(commands_arr[i]);
-        }*/
+        //null
+        cmd_array[argc] = NULL;
 
         //create pipe
         int pipefd[2];
+        if(pipe(pipefd) == -1){
+            perror("Failed to initiate pipe.");
+            exit(-1);
+        }
+        //call fork and create a child
 
-        //check for error
-        if (pipe[pipefd] == -1) {
-          perror("Failed to create pipe.");
-          exit(-1);
+        pid_t pid_2 = fork();
+
+        if(pid_2 == 0){
+            //CHILD:
+
+            //close read end
+            close(pipefd[0]);
+            //execute cmd
+            if(dup2(pipefd[1], STDOUT_FILENO) == -1){
+              exit(-1);
+            }
+            execvp(cmd_array[0] , cmd_array);
+            exit(0);
         }
 
-        if (fork() == 0) {
-          //close read-end of pipe
-          close(pipefd[0]);
+        //PARENT:
 
-          //execute command here
-          execute_cmd(argv, pipefd[1]);
-
-          exit(0);
-        }
-
-        //close write-end of pipe
+        //close write end
         close(pipefd[1]);
+
         wait(NULL);
 
-        //get pipe output
-        int read_n = read(pipefd[0], buffer, BUFFER - 1);
+        //pipe output
+        int read_line = read(pipefd[0], buffer, BUFFER_SIZE - 1);
 
         //close pipe
         close(pipefd[0]);
 
-        buffer[read_n] = '\0';
+        //set NULL
+        buffer[read_line] = '\0';
 
-        //write to output.txt here?
-        writeOutput()
-      }
+        //output to file
+        writeOutput(commands_arr[i], buffer);
+        
+        //free cmd
+        free(cmd_current);
     }
 
     free(buffer);
-
+    for(int i = 0; i < lines; i++){
+        free(commands_arr[i]);
+    }
+    free(commands_arr);
     return 0;
-  }
 }
-
-// char* line = NULL;
-// #define SHM_NAME "PROC_SHM"
-// #define MEM_SPACE 1048576
-
-// //create shared memory area
-// //int shm_fd = shm_open(SHM_NAME , 0_RDWR | 0_CREAT, S_IRUSR | S_IWUSR);
-// int shm_fd = shm_open(SHM_NAME, 0_CREAT | 0_RDWR, 0666);
-
-// //check for error
-// if(shm_fd < 0){
-//   perror("Shared memory failed to initialize.");
-//   exit(-1)
-// } else{
-//   printf("memory space created");
-// }
-
-// //set size of memory space
-// ftruncate(shm_fd, MEM_SPACE);
-
-// int pid = fork();
-
-// if (pid < 0){
-
-//   exit(1);
-
-// } else if (pid == 0){
-//   //in child process:
-
-//   FILE *fp = fopen("sample_in.txt", "r");
-
-//   //if file is empty...
-//   if(fp==NULL){
-//     printf("file not opened.")
-//     exit(-1);
-//   }
-
-//   //read the file
-//   int file_read = fread(memory, 1, MEM_SPACE-1, fp);
-
-//   if (file_read == 0){
-//     exit(-1);
-//   }
-
-//   //null character
-//   memory[file_read] = '\0';
-
-//   //fscanf(fp, "%s", line);
-
-//   //exit
-//   exit(0);
-// }
-
-// return 0;
