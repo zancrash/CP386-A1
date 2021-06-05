@@ -62,14 +62,16 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
   int status;
   wait(&status);
   char buff[1024];
-  memset(buff, 0, strlen(buff));  //zero out the buffer
+  memset(buff, 0, sizeof(buff));  //zero out the buffer
 
   close(fd[1]);  // not writing, so close this end.
 
-  if (read(fd[0], buff, sizeof(buff) - 1) == -1) {
+  // int bytes_read = read(fd[0], buff, sizeof(buff));
+  if (read(fd[0], buff, sizeof(buff)) == -1) {
     printf("An error occurred while reading from the pipe.\n");
     exit(-1);
   }
+
   close(fd[0]);  // close when done reading.
 
   // for testing
