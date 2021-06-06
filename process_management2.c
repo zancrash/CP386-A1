@@ -2,8 +2,8 @@
 ----------------------------------------------------
  Project: 201764720_yourLaurierID_a01_q02
  File:    process_management.c
- Authors:  Martin Klasninovski | yourName
- Laurier IDs: 201764720 | yourLaurierID
+ Authors:  Martin Klasninovski | Muhammad Ali
+ Laurier IDs: 201764720 | 191651560
 ----------------------------------------------------
 */
 
@@ -22,10 +22,8 @@
 #define MAX_FLAG_LEN 10
 
 typedef struct command_info {
-  char full_command[MAX_LINE_LEN];         // entire command with flags
-  char flags[MAX_FLAG_LEN][MAX_FLAG_LEN];  // holds the flags for each command
-  char command[MAX_LINE_LEN];              // only the command
-  int num_flags;                           // used to keep track of # of flags inside each command
+  char full_command[MAX_LINE_LEN];  // entire command with flags
+  char command[MAX_LINE_LEN];       // only the command
 } COMMAND_INFO;
 
 void writeOutput(char* command, char* output, int opened) {
@@ -43,13 +41,13 @@ void writeOutput(char* command, char* output, int opened) {
 }
 
 void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info, int opened) {
-  int fd[2];
+  int fd[2];  // fd[0] - read from, fd[1] - write from
 
-  // fd[0] - read from, fd[1] - write from
+  // create pipe
   if (pipe(fd) == -1) {
     fprintf(stderr, "An error occured while opening the pipe \n");
     exit(-1);
-  }  // create pipe
+  }
 
   pid_t pid_2 = fork();
 
@@ -58,9 +56,15 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info, int opened
     exit(1);
   } else if (pid_2 == 0) {
     // child
-    close(fd[0]);                // not reading, so close this end
-    dup2(fd[1], STDOUT_FILENO);  // redirect output to write pipe
-    close(fd[1]);                // close when done writing.
+    close(fd[0]);  // not reading, so close this end
+
+    // redirect output to write pipe
+    if (dup2(fd[1], STDOUT_FILENO) == -1) {
+      fprintf(stderr, "An error occurred while redirecting output.");
+      exit(1);
+    };
+
+    close(fd[1]);  // close when done writing.
 
     execvp(args[0], args);  // output from execution gets redirected
   }
@@ -94,7 +98,7 @@ int main(int argc, char* argv[]) {
   char line[MAX_LINE_LEN];                                               // string to represent a single command
   int arr_size = 1;                                                      // size of dynamic array at start is 1
   int num_elements = 0;                                                  // total # of elements in array at start
-  COMMAND_INFO* commands_arr = malloc(arr_size * sizeof(COMMAND_INFO));  // array that holds the commands read from shared memory, will set up to be dynamic later
+  COMMAND_INFO* commands_arr = malloc(arr_size * sizeof(COMMAND_INFO));  // dynamic array that holds the commands read from shared memory
 
   int count = 0;  //temporary, for testing currently
 
@@ -105,7 +109,7 @@ int main(int argc, char* argv[]) {
     exit(1);
   } else if (pid == 0) {
     // child
-    FILE* fp = fopen(argv[1], "r");  //argv[1] holds the input file to read from
+    FILE* fp = fopen(argv[1], "r");  //argv[1] holds the input file to read from (e.g: sample_in.txt)
 
     shm_fd = shm_open(shared_mem_name, O_CREAT | O_RDWR, 0666);      // create shared memory
     ftruncate(shm_fd, MEM_SIZE);                                     // setup size of shared memory
@@ -113,11 +117,10 @@ int main(int argc, char* argv[]) {
 
     // read from file and write each line to shared memory
     while (fgets(line, MAX_LINE_LEN - 1, fp) != NULL) {
-      // printf("line looks like: %s\n", line);
       sprintf(mem_ptr, "%s", line);
       mem_ptr += strlen(line);
     }
-    fclose(fp);
+    fclose(fp);     //close file
     close(shm_fd);  // close shared memory
     exit(0);        // end child process
   }
@@ -139,7 +142,6 @@ int main(int argc, char* argv[]) {
 
   // each token represents a different linux command string, and is added to the array.
   while (token != NULL) {
-    // printf("\n\ntoken is: %s\n", token);
     if (num_elements == arr_size) {                                           // check if there is space in array
       arr_size *= 2;                                                          // double the size of array
       commands_arr = realloc(commands_arr, arr_size * sizeof(COMMAND_INFO));  // allocate more memory for elements.
