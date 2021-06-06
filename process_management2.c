@@ -27,16 +27,21 @@ typedef struct command_info {
   int num_flags;
 } COMMAND_INFO;
 
-void writeOutput(char* command, char* output) {
-  FILE* fp = fopen("output.txt", "a");  //append to end of file
-
+void writeOutput(char* command, char* output, int opened) {
+  FILE* fp;
+  if (!opened) {
+    fp = fopen("output.txt", "w");
+  } else {
+    fp = fopen("output.txt", "a");
+  }
+  //append to end of file
   fprintf(fp, "The output of: %s : is\n", command);
   fprintf(fp, ">>>>>>>>>>>>>>>\n%s<<<<<<<<<<<<<<<\n", output);
 
   fclose(fp);
 }
-
-void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
+//char* buff_copy 3rd param if using massive buffer method
+void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info, int opened) {
   int fd[2];
 
   // fd[0] - read from, fd[1] - write from
@@ -62,6 +67,7 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
   int status;
   wait(&status);
   char buff[1024];
+
   memset(buff, 0, sizeof(buff));  //zero out the buffer
 
   close(fd[1]);  // not writing, so close this end.
@@ -72,13 +78,21 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info) {
     exit(-1);
   }
 
+  //">>>>>>>>>>>>>>>\n%s<<<<<<<<<<<<<<<\n"
   close(fd[0]);  // close when done reading.
+  //"The output of: %s : is\n"
+  // strcpy(buff_copy, "The output of: ");
+  // strcat(buff_copy, cmd_info.full_command);
+  // strcat(buff_copy, " : is\n>>>>>>>>>>>>>>>\n");
+  // strcat(buff_copy, buff);
+  // strcat(buff_copy, "<<<<<<<<<<<<<<<\n");
+  // strcat(buff_copy, )
 
   // for testing
   // printf("Command is: %s\n", cmd_info.full_command);
   // printf("Output is: %s\n", buff);
 
-  writeOutput(cmd_info.full_command, buff);
+  writeOutput(cmd_info.full_command, buff, opened);
 }
 
 int main(int argc, char* argv[]) {
@@ -172,6 +186,8 @@ int main(int argc, char* argv[]) {
   }
 
   // iteratively call on helper function to fork and perform execvp() calls
+  //char BUFFER[1024 * num_elements];
+  int opened = 0;
   for (int i = 0; i < num_elements; i++) {
     char* args[num_elements];
     count = 0;
@@ -179,14 +195,35 @@ int main(int argc, char* argv[]) {
       args[count] = commands_arr[i].flags[count];
       count++;
     }
+    if (i != 0) {
+      opened = 1;
+    } else {
+      opened = 0;
+    }
     args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL
 
-    read_from_and_write_to_pipe(args, commands_arr[i]);
+    read_from_and_write_to_pipe(args, commands_arr[i], opened);
+    // char buff2[2048];
+    // memset(buff2, 0, sizeof(buff2));
+
+    // read_from_and_write_to_pipe(args, commands_arr[i], buff2);
+    // //printf("buffer looks like: %s\n", buff2);
+    // strcat(BUFFER, buff2);
   }
 
-  // for (int i = 0; i < num_elements; i++) {
-  //   free(commands_arr[i]);
+  // writeOutput()
+
+  // //testing
+  // count = 0;
+  // char* tokenz;
+  // const char delimiterz[2] = "\n";  // split on blank spaces
+  // tokenz = strtok(BUFFER, delimiterz);
+
+  // while (tokenz != NULL) {
+  //   printf("%s\n", tokenz);
+  //   tokenz = strtok(NULL, delimiterz);
   // }
+
   free(commands_arr);
 
   return 0;
