@@ -23,8 +23,15 @@
 #define SHM "PROC_SHM"
 #define BUFFER_SIZE 6024
 
-void writeOutput(char* command, char* output) {
-  FILE* fp = fopen("output.txt", "a");  //append to end of file
+void writeOutput(char* command, char* output, int opened) {
+
+  FILE* fp;
+  if (!opened) {
+    fp = fopen("output.txt", "w");
+  } else {
+    fp = fopen("output.txt", "a");
+  }
+  //FILE* fp = fopen("output.txt", "a");  //append to end of file
 
   fprintf(fp, "The output of: %s : is\n", command);
   fprintf(fp, ">>>>>>>>>>>>>>>\n%s<<<<<<<<<<<<<<<\n", output);
@@ -168,13 +175,21 @@ int main(int argc, char* argv[]){
 
         //PARENT:
 
+        int opened = 0;
+
         //close write end
         close(pipefd[1]);
 
         wait(NULL);
 
+        if (i != 0) {
+           opened = 1;
+        } else {
+          opened = 0;
+        }
+
         //pipe output
-        int read_line = read(pipefd[0], buffer, BUFFER_SIZE - 1);
+        int read_line = read(pipefd[0], buffer, BUFFER_SIZE-1);
 
         //close pipe
         close(pipefd[0]);
@@ -183,7 +198,7 @@ int main(int argc, char* argv[]){
         buffer[read_line] = '\0';
 
         //output to file
-        writeOutput(commands_arr[i], buffer);
+        writeOutput(commands_arr[i], buffer, opened);
         
         //free cmd
         free(cmd_current);
