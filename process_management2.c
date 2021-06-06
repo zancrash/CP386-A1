@@ -19,28 +19,29 @@
 #include <unistd.h>
 
 #define MAX_LINE_LEN 60
+#define MAX_FLAG_LEN 10
 
 typedef struct command_info {
-  char full_command[MAX_LINE_LEN];  // entire command with flags
-  char flags[5][10];                //make dynamic later
-  char command[MAX_LINE_LEN];       // only the command
-  int num_flags;
+  char full_command[MAX_LINE_LEN];         // entire command with flags
+  char flags[MAX_FLAG_LEN][MAX_FLAG_LEN];  // holds the flags for each command
+  char command[MAX_LINE_LEN];              // only the command
+  int num_flags;                           // used to keep track of # of flags inside each command
 } COMMAND_INFO;
 
 void writeOutput(char* command, char* output, int opened) {
   FILE* fp;
   if (!opened) {
-    fp = fopen("output.txt", "w");
+    fp = fopen("output.txt", "w");  // open for writing if empty file/doesn't exist yet
   } else {
-    fp = fopen("output.txt", "a");
+    fp = fopen("output.txt", "a");  // append to end of file
   }
-  //append to end of file
+
   fprintf(fp, "The output of: %s : is\n", command);
   fprintf(fp, ">>>>>>>>>>>>>>>\n%s<<<<<<<<<<<<<<<\n", output);
 
   fclose(fp);
 }
-//char* buff_copy 3rd param if using massive buffer method
+
 void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info, int opened) {
   int fd[2];
 
@@ -64,34 +65,21 @@ void read_from_and_write_to_pipe(char* args[], COMMAND_INFO cmd_info, int opened
     execvp(args[0], args);  // output from execution gets redirected
   }
   // parent
-  int status;
-  wait(&status);
+  wait(NULL);
   char buff[1024];
 
   memset(buff, 0, sizeof(buff));  //zero out the buffer
 
   close(fd[1]);  // not writing, so close this end.
 
-  // int bytes_read = read(fd[0], buff, sizeof(buff));
   if (read(fd[0], buff, sizeof(buff)) == -1) {
     printf("An error occurred while reading from the pipe.\n");
     exit(-1);
   }
 
-  //">>>>>>>>>>>>>>>\n%s<<<<<<<<<<<<<<<\n"
   close(fd[0]);  // close when done reading.
-  //"The output of: %s : is\n"
-  // strcpy(buff_copy, "The output of: ");
-  // strcat(buff_copy, cmd_info.full_command);
-  // strcat(buff_copy, " : is\n>>>>>>>>>>>>>>>\n");
-  // strcat(buff_copy, buff);
-  // strcat(buff_copy, "<<<<<<<<<<<<<<<\n");
-  // strcat(buff_copy, )
 
-  // for testing
-  // printf("Command is: %s\n", cmd_info.full_command);
-  // printf("Output is: %s\n", buff);
-
+  // write the read buffer into the output.txt file
   writeOutput(cmd_info.full_command, buff, opened);
 }
 
@@ -144,7 +132,7 @@ int main(int argc, char* argv[]) {
 
   // split the read memory string into separate command strings
   char* token;
-  const char delimiter[2] = "\n";
+  const char delimiter[2] = "\r\n";
   char shared_memory_result[MAX_LINE_LEN];
   strcpy(shared_memory_result, mem_ptr);
   token = strtok(shared_memory_result, delimiter);  // initial starting token (1st command)
@@ -165,66 +153,40 @@ int main(int argc, char* argv[]) {
 
   // split each command string into separate pieces (so flags can be identified)
   count = 0;
-  char* tokens;
-  const char delimiters[2] = " ";  // split on blank spaces
-
-  for (int i = 0; i < num_elements; i++) {
-    // will change this to not be hardcoded when the dynamic array is setup properly
-    if (i != num_elements - 1) {
-      commands_arr[i].full_command[strlen(commands_arr[i].full_command) - 1] = '\0';
-      commands_arr[i].command[strlen(commands_arr[i].command) - 1] = '\0';  //remove newline character on each command string as it interferes with the execution
-    }
-
-    tokens = strtok(commands_arr[i].command, delimiters);  // first token
-    while (tokens != NULL) {
-      strcpy(commands_arr[i].flags[count], tokens);  // add flags to flag array
-      tokens = strtok(NULL, delimiters);             // next token
-      count++;
-    }
-    commands_arr[i].num_flags = count;  // set the total # of flags for each command
-    count = 0;
-  }
+  char* token_2;
+  const char delimiter_2[2] = " ";  // split on blank spaces
 
   // iteratively call on helper function to fork and perform execvp() calls
-  //char BUFFER[1024 * num_elements];
   int opened = 0;
   for (int i = 0; i < num_elements; i++) {
-    char* args[num_elements];
-    count = 0;
-    while (count != commands_arr[i].num_flags) {
-      args[count] = commands_arr[i].flags[count];
+    if (i != num_elements - 1) {
+      commands_arr[i].full_command[strlen(commands_arr[i].full_command)] = '\0';
+      commands_arr[i].command[strlen(commands_arr[i].command)] = '\0';  //remove newline character on each command string as it interferes with the execution
+    }
+
+    char* args[MAX_FLAG_LEN];
+    token_2 = strtok(commands_arr[i].command, delimiter_2);  // first token
+
+    while (token_2 != NULL) {
+      args[count] = token_2;
+      token_2 = strtok(NULL, delimiter_2);  // next token
       count++;
     }
+    args[count] = NULL;  //execvp requires NULL on last argument
+
+    count = 0;
+
+    // figure out if the file should be opened for writing or appending
     if (i != 0) {
       opened = 1;
     } else {
       opened = 0;
     }
-    args[commands_arr[i].num_flags] = NULL;  //execvp requires NULL
 
     read_from_and_write_to_pipe(args, commands_arr[i], opened);
-    // char buff2[2048];
-    // memset(buff2, 0, sizeof(buff2));
-
-    // read_from_and_write_to_pipe(args, commands_arr[i], buff2);
-    // //printf("buffer looks like: %s\n", buff2);
-    // strcat(BUFFER, buff2);
   }
 
-  // writeOutput()
-
-  // //testing
-  // count = 0;
-  // char* tokenz;
-  // const char delimiterz[2] = "\n";  // split on blank spaces
-  // tokenz = strtok(BUFFER, delimiterz);
-
-  // while (tokenz != NULL) {
-  //   printf("%s\n", tokenz);
-  //   tokenz = strtok(NULL, delimiterz);
-  // }
-
-  free(commands_arr);
+  free(commands_arr);  // free memory from dynamic array
 
   return 0;
 }
